@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button, Card, Checkbox, Form, Input, Radio, Divider, DatePicker } from 'antd';
+import {grouping} from '../data';
 
 const IndivApplicationForm = () => {
   const [trackEvents, setTrackEvents] = React.useState([]);
@@ -59,6 +60,13 @@ const IndivApplicationForm = () => {
           </Form.Item>
           <Form.Item label="Date of Birth">
             <DatePicker />
+          </Form.Item>
+          <Form.Item label="Group">
+            <Radio.Group name="group">
+              {grouping.map((g) => (
+                <Radio value={g.key}>{g.label}</Radio>
+              ))}
+            </Radio.Group>
           </Form.Item>
         </Card>
         <Card title="Events">

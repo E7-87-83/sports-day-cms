@@ -1,7 +1,12 @@
 import React from 'react';
-import { Card, Form, Input, Button, Row, Col, Radio } from 'antd';
+import { Card, Form, Input, Button, Row, Col, Radio, Select } from 'antd';
+import {grouping} from '../data';
 
 const ResultForm = () => {
+  const trackEvents = ["100m", "200m", "400m", "800m", "1500m", "5000m", "110m Hurdles", "100m Hurdles", "400m Hurdles"];
+  const fieldEvents = ["Shot Put", "Discus", "Javelin", "Long Jump", "High Jump", "Triple Jump"];
+  const athleticsEvents = [...trackEvents, ...fieldEvents];
+
   const [form] = Form.useForm();
   const [numOfAthletes, setNumOfAthletes] = React.useState(8);
 
@@ -23,8 +28,7 @@ const ResultForm = () => {
     return values >= 10 ? values : `0${values}`
   }
 
-  return (
-    <Card title="Result Form">
+  return (<Card title="Result Form">
     <Form
       form={form}
       name="name_and_score"
@@ -33,10 +37,25 @@ const ResultForm = () => {
       layout="vertical"
     >
       <div align="right">
-      <Radio.Group onChange={(e) => setNumOfAthletes(e.target.value)}>
-        <Radio value="8">8</Radio>
-        <Radio value="16">16</Radio>
-      </Radio.Group>
+      
+        <Select name="event" placeholder="Athletics Event Title">
+          {athleticsEvents.map((event) => (
+            <Select.Option value={event}>{event}</Select.Option>
+          ))}
+        </Select>
+        <Radio.Group name="gender">
+          <Radio value="M">Male</Radio>
+          <Radio value="F">Female</Radio>
+        </Radio.Group>
+        <Select name="group" placeholder="GROUP">
+          {grouping.map((g) => (
+            <Select.Option value={g.key}>{g.label}</Select.Option>
+          ))}
+        </Select>
+        <Radio.Group onChange={(e) => setNumOfAthletes(e.target.value)}>
+            <Radio value="8">8</Radio>
+            <Radio value="16">16</Radio>
+        </Radio.Group>
       </div>
       {[...Array(3)].map((_, index) => (
         <Row key={index} gutter={16}>
@@ -88,8 +107,7 @@ const ResultForm = () => {
         </Button>
       </Form.Item>
     </Form>
-    </Card>
-  );
+  </Card>);
 };
 
 export default ResultForm;
